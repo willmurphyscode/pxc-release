@@ -1,0 +1,51 @@
+{
+  "api": "${PROTOCOL}://api.${DOMAIN}",
+  "apps_domain": "${DOMAIN}",
+  "admin_user": "${CF_API_USER}",
+  "admin_password": "${CF_API_PASSWORD}",
+  "broker_host": "p-mysql.${DOMAIN}",
+  "service_name": "p-mysql",
+  "plans" : [
+    {
+      "name": "${SMALL_PLAN_NAME}",
+      "max_user_connections": 20,
+      "max_storage_mb": ${SMALL_PLAN_SIZE}
+  },
+    {
+      "name": "${LARGE_PLAN_NAME}",
+      "max_user_connections": 40,
+      "max_storage_mb": ${LARGE_PLAN_SIZE}
+  }
+  ],
+  "skip_ssl_validation": true,
+  "timeout_scale": 1.0,
+  "proxy": {
+    "dashboard_urls": ${DASHBOARD_URLS},
+"api_username":"${PROXY_API_USER}",
+"api_password":"${PROXY_API_PASSWORD}",
+"api_force_https": ${USE_HTTPS},
+"skip_ssl_validation": true
+},
+"bosh": {
+"client": "${BOSH_CLIENT}",
+"client_secret": "${BOSH_CLIENT_SECRET}",
+"url": "${BOSH_URL}",
+"ca_cert": "$(awk '{printf "%s\\n", $0}' ${BOSH_CA_CERT_PATH})"
+},
+"brokers": [
+{
+"ip": "${BROKER_0_REMOTE_IP}",
+"ssh_tunnel": "127.0.0.1:${BROKER_0_LOCAL_PORT}"
+},
+{
+"ip": "${BROKER_1_REMOTE_IP}",
+"ssh_tunnel": "127.0.0.1:${BROKER_1_LOCAL_PORT}"
+}
+],
+"mysql_nodes": [
+{
+"ip": "${MYSQL_NODE_0_REMOTE_IP}",
+"ssh_tunnel": "127.0.0.1:${MYSQL_NODE_0_LOCAL_PORT}"
+}
+]
+}

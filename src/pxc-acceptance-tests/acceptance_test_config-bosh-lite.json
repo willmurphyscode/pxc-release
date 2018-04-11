@@ -1,0 +1,17 @@
+{
+  "skip_ssl_validation": true,
+  "timeout_scale": 1.0,
+  "proxy": {
+    "dashboard_urls": ["https://0-proxy-pxc.bosh-lite.com"],
+    "api_username":"proxy",
+    "api_password":"y9udzavo5l2hqkfh7h8w",
+    "api_force_https": false,
+    "skip_ssl_validation": true
+    },
+  "bosh": {
+    "client": "admin",
+    "client_secret": "admin",
+    "url": "192.168.50.6",
+    "ca_cert": "-----BEGIN CERTIFICATE-----\nMIIDFDCCAfygAwIBAgIRAOMWYwQXiVXc5NAX2dtJV7YwDQYJKoZIhvcNAQELBQAw\nMzEMMAoGA1UEBhMDVVNBMRYwFAYDVQQKEw1DbG91ZCBGb3VuZHJ5MQswCQYDVQQD\nEwJjYTAeFw0xODAzMjAxNjU5MjlaFw0xOTAzMjAxNjU5MjlaMDMxDDAKBgNVBAYT\nA1VTQTEWMBQGA1UEChMNQ2xvdWQgRm91bmRyeTELMAkGA1UEAxMCY2EwggEiMA0G\nCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmT34TEytcFo6ljg7rX/D0zTiwm4E+\nZD0oRe7oJgkpppbjzOKdm3MU+AD6ThcLwE0hzcKD13hxBNwJEMyuh4G/C/cu74UN\nwMGc+wLkcFpVe0RARcmRFw9B5yCrggErGFTsRElSz3Soye+d5/1CbG6s1siMlOOT\n3H5NZCbABpuIvd4Ng5OUj6/RGRSbYNRbEgFXpiMrxbdwLq/DZVMpzSdduc1AWG/l\nJdCiwAgriHuim9OxYG6T+xAj41z9wOazBEfTKqXDPbmdykWP3q0ceKZFk5XfPqdw\ntWskyJ3EfDLeZRrDCpUjoeGeZIepkbziE+VpiSYzgh8q8MU604VfwSv3AgMBAAGj\nIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEB\nCwUAA4IBAQBuwIlEN/uGwhZ3FHpAjGyYU46rvIFuPoqStNCELdGvtxbHvoakLRbe\ntgmbNVA1GHh1rpbQo5OefwY6GdJE+mjyxPZ4XvXmedkO4yfpBWxLIV8k8V/CkI1f\nuI+2qwtMHTFgV6fIAmPteFaC7llqYzWiFLapv9x99lbFWmma8tLSyO6IWv4SBbGY\n9z7ZS6doI0HLv3mnoGGc0sdkc7B0bgre2lXQU7ZW/60BG5C9Iy0arYmzGrYM5hNp\ncFZT3dsfUDTVXfgFZVaHSbmluTJExzO2at6xpyIpoX/2SVTxlxBM50RYP3naiI2I\nH0msfsFNPaWl/l4a8LaH6ERZwSF/fZib\n-----END CERTIFICATE-----\n"
+    }
+}

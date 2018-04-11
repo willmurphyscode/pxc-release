@@ -1,0 +1,21 @@
+{
+  "skip_ssl_validation": true,
+  "timeout_scale": 1.0,
+  "proxy": {
+    "dashboard_urls": ["http://35.203.138.110:8080"],
+    "api_username":"proxy",
+    "api_password":"vpvs0wpydfm4l38wgcjj"
+  },
+  "bosh": {
+    "client": "admin",
+    "client_secret": "boshliteinthecloud",
+    "url": "35.203.138.110",
+    "ca_cert": "-----BEGIN CERTIFICATE-----\nMIIDEzCCAfugAwIBAgIQTvojC5gshXICacejI7gU4DANBgkqhkiG9w0BAQsFADAz\nMQwwCgYDVQQGEwNVU0ExFjAUBgNVBAoTDUNsb3VkIEZvdW5kcnkxCzAJBgNVBAMT\nAmNhMB4XDTE4MDQwOTE1MDI1OVoXDTE5MDQwOTE1MDI1OVowMzEMMAoGA1UEBhMD\nVVNBMRYwFAYDVQQKEw1DbG91ZCBGb3VuZHJ5MQswCQYDVQQDEwJjYTCCASIwDQYJ\nKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMFTFTrv7FeD8EN7silob1xtWlZHcO8z\nJODu0sNVxb5xE1HEcOG2H2ISsR3am/4zh3edaXfD4Op21kJ30+07RZPy5tDBpNK+\nzGx4cpSErQEDNSJEfw8T2n0njnfEFYA2E/s+o1TFd83LrDt2w2WkCq5S6qZzVQBC\nAhWblcGhpm19cxl1Fysmy5D0oh0WPLJrDtqkD9tIsyk6ylZSHIz69B9w2nNClwdr\nCILVYqKdtLn4j6D1uG6OpOFFRL2pGj/LElTIU/V6nkCwRH+5gkZnu4YsFZftzZBD\nCVPoHigoC0iEIiQSlukpPzc0rpmGEBEhcw012uExkZWe/e/j5gdDqFUCAwEAAaMj\nMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEL\nBQADggEBACrjIydovPfwVTXr6FZbSgvQ9mrRxKfMRrbp4gEc2FetWPCpIzp3y38m\nj8YTRHRdQeqQk53/gxRz3uBRz4X8IW0hpMQ1up/kW2HITCin/WmzbIr7r5lob3YL\njvAnhOpY4qqTkAMFMK1WjsoyNQmsjU3+RM08oYIglO3q92e4WuF9S7c5OFKP2h8v\nBKVf8ZEzuDnkb0gFp9o0S9QQiTOLEQzzKGxchXNQR8Ad86pBW5ckP4iLqZd5lcvh\ni55zYdbMWAouIt6Q3Zl+lRGHkFl3oVTdAKe+LvV+DChlgEdvxVdOWhqYQkWSNzZM\nQKgSqKd3rSZK2Q7ouSJapeeGICkWiUU=\n-----END CERTIFICATE-----\n"
+  },
+  "db_creds": {
+    "host": "35.203.138.110",
+    "port": 3306,
+    "username": "root",
+    "password": "m4odigaakr5jmrgq273l"
+  }
+}
