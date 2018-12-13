@@ -1,4 +1,7 @@
-name: pxc
+name: ((deployment_name))
+
+features:
+  converge_variables: true
 
 releases:
 - name: pxc
@@ -15,9 +18,9 @@ addons:
 instance_groups:
 - name: mysql
   instances: 1
-  azs: [z1, z2, z3]
-  networks: [{name: default}]
-  vm_type: default
+  azs: [us-central1-b]
+  networks: [{name: ((env))-multi-dc-subnet}]
+  vm_type: small
   stemcell: default
   persistent_disk: 10000
   jobs:
@@ -68,7 +71,11 @@ variables:
 - name: mysql_server_certificate
   type: certificate
   options:
-    ca: pxc_server_ca
+    ca: /services/tls_ca
     common_name: mysql_server_certificate
+    alternative_names:
+    - 10.32.0.5
+    - 10.64.0.5
+    extended_key_usage: [ "server_auth", "client_auth" ]
 - name: smoke_tests_db_password
   type: password

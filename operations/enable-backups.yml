@@ -1,0 +1,75 @@
+---
+- type: replace
+  path: /releases/name=mysql-backup?
+  value:
+    name: mysql-backup
+    version: latest
+
+- type: replace
+  path: /instance_groups/name=mysql/jobs/name=streaming-mysql-backup-client?
+  value:
+    name: streaming-mysql-backup-client
+    release: mysql-backup
+    properties:
+      cf-mysql-backup:
+        backup-server:
+          port: 8081
+        endpoint_credentials:
+          username: username
+          password: password
+        symmetric_key: thekey
+        tls:
+          ca_certificate: ((streaming_backup_server_cert.ca))
+          server_certificate: ((streaming_backup_server_cert.certificate))
+          server_key: ((streaming_backup_server_cert.private_key))
+          server_name: "streaming-backup.dedicated-mysql.com"
+      cf_mysql:
+        mysql:
+          cluster_ips: [127.0.0.1]
+          admin_username: mysql-backup
+          admin_password: REPLACE-BACKUP-PASSWORD
+
+- type: replace
+  path: /instance_groups/name=mysql/jobs/name=streaming-mysql-backup-tool?
+  value:
+    name: streaming-mysql-backup-tool
+    release: mysql-backup
+    properties:
+      cf-mysql-backup:
+        backup-server:
+          port: 8081
+        endpoint_credentials:
+          username: username
+          password: password
+        symmetric_key: thekey
+        tls:
+          ca_certificate: ((streaming_backup_server_cert.ca))
+          server_certificate: ((streaming_backup_server_cert.certificate))
+          server_key: ((streaming_backup_server_cert.private_key))
+          server_name: "streaming-backup.dedicated-mysql.com"
+      cf_mysql:
+        mysql:
+          defaults_file_path: /var/vcap/jobs/pxc-mysql/config/mylogin.cnf
+          cluster_ips: [127.0.0.1]
+          admin_username: mysql-backup
+          admin_password: REPLACE-BACKUP-PASSWORD
+
+# - type: replace
+#   path: /variables/name=streaming_backup_ca?
+#   value:
+#     name: streaming_backup_ca
+#     type: certificate
+#     options:
+#       is_ca: true
+#       common_name: "streaming-backup.dedicated-mysql.com"
+#
+- type: replace
+  path: /variables/name=streaming_backup_server_cert?
+  value:
+    name: streaming_backup_server_cert
+    type: certificate
+    options:
+      ca: /services/tls_ca
+      common_name: "streaming-backup.dedicated-mysql.com"
+      extended_key_usage: [ "server_auth" ]
+

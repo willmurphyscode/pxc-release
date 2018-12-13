@@ -35,7 +35,6 @@ socket                          = <%= "#{base_folder}/mysqld.sock" %>
 !include                        /var/vcap/jobs/pxc-mysql/config/auto-tune.cnf
 
 [mysqld]
-server-id                       = <%= index %>
 ssl-ca=/var/vcap/jobs/pxc-mysql/certificates/server-ca.pem
 ssl-cert=/var/vcap/jobs/pxc-mysql/certificates/server-cert.pem
 ssl-key=/var/vcap/jobs/pxc-mysql/certificates/server-key.pem
@@ -87,7 +86,13 @@ sql-mode                        = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STR
 local_infile                    = <%= bool_to_on_off(p('engine_config.local_infile')) %>
 
 <% if p('engine_config.binlog.enabled') %>
+gtid-mode                       = on
+enforce-gtid-consistency        = on
+relay-log-info-repository       = TABLE
+master-info-repository          = TABLE
+relay-log                       = mysql-relay
 log_bin                         = mysql-bin
+server-id                       = <%= rand(1..10000) %>
 log_slave_updates               = 1
 expire_logs_days                = <%= p('engine_config.binlog.expire_logs_days') %>
 <% end %>
