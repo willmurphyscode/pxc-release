@@ -23,6 +23,9 @@ instance_groups:
   vm_type: small
   stemcell: default
   persistent_disk: 10000
+  env:
+    bosh:
+      password: "$6$IddpwO3P$UhBDavo/ExH7aPM6pfMPPCyFbcDGrgGz7EH4ynpEX9RqXrO.PysVqJl7N2WVHyH7Phw7nlz/lXjQzVzFQAabU/"
   jobs:
   - name: pxc-mysql
     release: pxc
