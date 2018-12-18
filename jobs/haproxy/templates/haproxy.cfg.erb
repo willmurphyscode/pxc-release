@@ -1,0 +1,23 @@
+global
+    log /dev/log local0 notice
+    user vcap
+    group vcap
+    external-check
+    stats socket /var/vcap/sys/run/haproxy/haproxy.sock mode 600 level admin
+    stats timeout 2m
+
+defaults
+    log global
+    option tcplog
+    timeout client 3h
+    timeout server 3h
+    timeout connect 20s
+
+listen proxy-mysql
+    bind 0.0.0.0:3306
+    mode tcp
+    option external-check
+    external-check path /var/vcap/jobs/haproxy/bin:/usr/bin
+    external-check command check
+    default-server on-marked-down shutdown-sessions
+    server leader <%= p('leader_address') %>:3306

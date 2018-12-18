@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eu
+
+HAPROXY_VERSION=1.8.15
+tar -xf haproxy-${HAPROXY_VERSION}.tar.gz
+cd haproxy-${HAPROXY_VERSION}/
+make TARGET=linux2628 CPU=x86_64 USE_OPENSSL=1 USE_ZLIB=1
+make install PREFIX=/ SBINDIR=/bin DESTDIR=${BOSH_INSTALL_TARGET}
+cd -

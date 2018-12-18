@@ -1,0 +1,7 @@
+---
+name: haproxy
+
+dependencies: []
+
+files:
+- haproxy-*.tar.gz

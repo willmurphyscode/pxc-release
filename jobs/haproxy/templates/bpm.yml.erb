@@ -1,0 +1,10 @@
+---
+processes:
+  - name: haproxy
+    executable: /var/vcap/packages/haproxy/bin/haproxy
+    args:
+      - "-f"
+      - /var/vcap/jobs/haproxy/config/haproxy.cfg
+    additional_volumes:
+    - path: /var/vcap/sys/run/haproxy
+      writable: true

@@ -1,0 +1,13 @@
+---
+name: haproxy
+
+templates:
+  bpm.yml.erb: config/bpm.yml
+  haproxy.cfg.erb: config/haproxy.cfg
+
+packages:
+- haproxy
+
+properties:
+  leader_address:
+    description: "The IP address of the leader MySQL instance"

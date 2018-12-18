@@ -1,0 +1,12 @@
+---
+- type: replace
+  path: /instance_groups/name=mysql/jobs/-
+  value:
+    name: haproxy
+    release: pxc
+    properties:
+      leader_address: 10.32.0.5
+
+- type: replace
+  path: /instance_groups/name=mysql/jobs/name=pxc-mysql/properties/port?
+  value: 6033

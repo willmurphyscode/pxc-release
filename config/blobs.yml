@@ -6,6 +6,10 @@ check/check-0.9.13.tar.gz:
   size: 752880
   object_id: 36e0876b-8632-42f4-59be-24375401f0e3
   sha: sha256:ca6589c34f9c60ffd4c3e198ce581e944a9f040ca9352ed54068dd61bebb5cb7
+haproxy-1.8.15.tar.gz:
+  size: 2076583
+  object_id: 4687b493-04f9-4031-45e8-4c928d6aab61
+  sha: ed7dfe5c7fc39fbb3b54e981eb709fd8bcd87042
 libaio/libaio_0.3.110.orig.tar.gz:
   size: 42270
   object_id: ffce712d-c4f3-4a3b-764a-42f949b43ad3
