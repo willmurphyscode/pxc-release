@@ -20,4 +20,4 @@ listen proxy-mysql
     external-check path /var/vcap/jobs/haproxy/bin:/usr/bin
     external-check command check
     default-server on-marked-down shutdown-sessions
-    server leader <%= p('leader_address') %>:3306
+    server leader <%= p('replication.leader_address') %>:3306

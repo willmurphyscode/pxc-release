@@ -9,5 +9,5 @@ packages:
 - haproxy
 
 properties:
-  leader_address:
+  replication.leader_address:
     description: "The IP address of the leader MySQL instance"

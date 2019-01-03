@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#<%- if_p('replication.leader_address', 'replication.username', 'replication.password') do -%>
+
+/var/vcap/packages/pxc/bin/mysql --defaults-file=/var/vcap/jobs/pxc-mysql/config/mylogin.cnf <<EOF
+STOP SLAVE;
+CHANGE MASTER TO
+    MASTER_HOST = '<%= p('replication.leader_address') %>',
+    MASTER_USER = '<%= p('replication.username') %>',
+    MASTER_PASSWORD = '<%= p('replication.password') %>',
+    MASTER_AUTO_POSITION = 1;
+START SLAVE;
+EOF
+
+#<%- end.else do -%>
+
+/var/vcap/packages/pxc/bin/mysql --defaults-file=/var/vcap/jobs/pxc-mysql/config/mylogin.cnf <<EOF
+STOP SLAVE;
+RESET SLAVE ALL;
+EOF
+
+#<%- end -%>

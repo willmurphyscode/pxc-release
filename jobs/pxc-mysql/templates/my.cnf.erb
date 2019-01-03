@@ -95,6 +95,7 @@ log_bin                         = mysql-bin
 server-id                       = <%= rand(1..10000) %>
 log_slave_updates               = 1
 expire_logs_days                = <%= p('engine_config.binlog.expire_logs_days') %>
+super-read-only                 = <%= bool_to_on_off(p('read_only')) %>
 <% end %>
 
 # Required for user to create triggers when binlog is enabled
