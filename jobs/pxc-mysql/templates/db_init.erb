@@ -50,4 +50,6 @@ DROP USER IF EXISTS 'roadmin'@'<%= host %>';
   <% end %>
 <% end %>
 
+GRANT ALL PRIVILEGES ON *.* TO 'replication'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+
 FLUSH PRIVILEGES;
