@@ -1,0 +1,89 @@
+---
+# required
+apiVersion: v0 # which version of the schema to use
+product:
+  name: mysql-pxc
+  version: v2.5
+
+# optional
+metadata:
+  deployment: <%= spec.deployment %> # should be the deploymentnate, cmd equiv -metadata deployment=cf-4963c96fa4c68c59081b (for multiple separate by `,` )
+# promql does not allow for `/` so replace with underscores
+indicators:
+  - name:  connections_ratio # no spaces
+    promql:  _mysql_performance_threads_connected{source_id="p-mysql", deployment="$deployment"} / _mysql_variables_max_connections{source_id='p-mysql', deployment="$deployment"}
+    # $deployment refers to the metadata
+    thresholds: # to add alerting add this
+      - level: critical # critical, warning allows the operator to subscribe to a specific level accross all indicators
+        gt: .0095 # will draw a dotted red line
+      - level: warning
+        gt: .0097 # will draw a dotted yellow line
+    alert:
+      for: 10m # only alert on these thresholds if reached for 10minutes or more.
+    documentation: # is to give users better UX and instruction on how to resolve the alert
+      title: Active Connections to Max Connections ratio
+      description: the ratio of connections used this should not reach 1 for more than  say 3minutes
+      recommended_response: Check the number of connected clients on the database using "show processlist" and take actions to reduce the number of connections
+    presentation:
+      labels:
+        - index
+      chartType: bar
+      # currentValue: true # if we only want to show a number
+  - name:  connections_ratio_number # no spaces
+    promql:  _mysql_performance_threads_connected{source_id="p-mysql", deployment="$deployment"} / _mysql_variables_max_connections{source_id='p-mysql', deployment="$deployment"}
+    # $deployment refers to the metadata
+    thresholds: # to add alerting add this
+      - level: critical # critical, warning allows the operator to subscribe to a specific level accross all indicators
+        gt: .0095 # will draw a dotted red line
+      - level: warning
+        gt: .0097 # will draw a dotted yellow line
+    alert:
+      for: 10m # only alert on these thresholds if reached for 10minutes or more.
+    documentation: # is to give users better UX and instruction on how to resolve the alert
+      title: Active Connections to Max Connections ratio
+      description: the ratio of connections used this should not reach 1 for more than  say 3minutes
+      recommended_response: Check the number of connected clients on the database using "show processlist" and take actions to reduce the number of connections
+    presentation:
+      labels:
+        - index
+      chartType: bar
+      currentValue: true # if we only want to show a number
+  - name:  connections__number # no spaces
+    promql:  _mysql_performance_threads_connected{source_id="p-mysql", deployment="$deployment"}
+    presentation:
+      currentValue: true # if we only want to show a number
+      labels:
+        - ip
+        - index
+  - name:  connections_ratio_number_prediction # no spaces
+    promql:  predict_linear(_mysql_performance_threads_connected{source_id="p-mysql", deployment="$deployment"}[30m], 4 * 3600)
+    # $deployment refers to the metadata
+    thresholds: # to add alerting add this
+      - level: critical # critical, warning allows the operator to subscribe to a specific level accross all indicators
+        gt: .0095 # will draw a dotted red line
+      - level: warning
+        gt: .0097 # will draw a dotted yellow line
+    alert:
+      for: 10m # only alert on these thresholds if reached for 10minutes or more.
+    documentation: # is to give users better UX and instruction on how to resolve the alert
+      title: Active Connections prediction in 4h
+      description: the ratio of connections used this should not reach 1 for more than  say 3minutes
+      recommended_response: Check the number of connected clients on the database using "show processlist" and take actions to reduce the number of connections
+    presentation:
+      labels:
+        - index
+      chartType: bar
+      currentValue: true # if we only want to show a number
+
+layout: # specify the order of things
+  sections:
+    - title: Connection information
+      description: all things connections
+      indicators: # if indicators are not specified the will not show up in the dashboards
+        - connections__number
+        - connections_ratio_number_prediction
+    - title: Top LEVEL Connection information
+      description: all things connections
+      indicators: # if indicators are not specified the will not show up in the dashboards
+        - connections_ratio_number
+        - connections_ratio
