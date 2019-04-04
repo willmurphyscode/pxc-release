@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sleep 15
+
+grep max_connect_errors /var/vcap/jobs/mysql/config/my.cnf
+
+if [ $? -eq 0 ]; then
+  sed -i 's/max-connect-errors =.*/max-connect-errors = 456/' /var/vcap/jobs/mysql/config/my.cnf
+else
+  echo "max-connect-errors = 456" >> /var/vcap/jobs/mysql/config/my.cnf
+fi
+
+
+
+exit 0
