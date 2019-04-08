@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-set -eu
+set -euo pipefail
 
 # Nice output formatting
 normal=$(tput sgr0)
@@ -9,39 +7,46 @@ red=$(tput setaf 1)
 
 <% if_link('galera-agent') do |galera_agent| %>
 
+mysqld=/var/vcap/packages/pxc/bin/mysqld
+mysql_config=/var/vcap/jobs/pxc-mysql/config/my.cnf
+recovery_log=/var/vcap/sys/log/pxc-mysql/get_sequence_number.log
+
 report_sequence_number() {
-    if bpm pid pxc-mysql -p galera-init > /dev/null 2>&1; then
-      echo ""
-      echo -e "${bold}${red}\tCannot get sequence number while MySQL is running."
-      echo -e "\tRefer to documentation on how to shut down running instances.${normal}"
-      echo ""
-      return 1
-    fi
+  if bpm pid pxc-mysql -p galera-init > /dev/null 2>&1; then
+    echo ""
+    echo -e "${bold}${red}\tCannot get sequence number while MySQL is running.${normal}"
+    echo -e "${bold}${red}\tRefer to documentation on how to shut down running instances.${normal}"
+    echo ""
+    return 1
+  fi
 
-    cluster_uuid=$(awk '/uuid:/ { print $2; }' /var/vcap/store/pxc-mysql/grastate.dat)
+  if [[ $EUID -ne 0 ]]; then
+    echo -e "${bold}${red}$0 must be run as root${normal}"
+    return 1
+  fi
 
-    endpoint_port=<%= galera_agent.p('port') %>
-    endpoint_user=<%= galera_agent.p('endpoint_username') %>
-    endpoint_password=<%= galera_agent.p('endpoint_password') %>
+  local wsrep_pos
 
-    result=$(wget --content-on-error \
-        -qO- \
-        "http://${endpoint_user}:${endpoint_password}@localhost:${endpoint_port}/sequence_number") || rc=$?
+  wsrep_pos=$("${mysqld}" "--defaults-file=${mysql_config}" --disable-log-error --wsrep-recover \
+      |& tee "${recovery_log}" \
+      |  awk '/WSREP: Recovered position:/ { print $NF; }') || rc=$?
 
-    if [[ ${rc:-0} -ne 0 ]]; then
-      echo "${bold}${red}Failure obtaining sequence number!"
-      echo "Result was: [ ${result} ]${normal}"
-      return 1
-    fi
+  if [[ ${rc:-0} -ne 0 ]]; then
+    echo "${bold}${red}Failure obtaining sequence number!${normal}"
+    echo "${bold}${red}Check the recovery log '${recovery_log}' for details...${normal}"
+    return 1
+  fi
 
-    seq_no="${result}"
+  cluster_uuid="$(cut -d':' -f 1 <<< ${wsrep_pos})"
+  seq_no="$(cut -d':' -f 2 <<< ${wsrep_pos})"
 
-    if [[ "$seq_no" =~ [0-9]+$ ]]; then
-      instance_id=$(</var/vcap/instance/id)
-      echo "{  \"cluster_uuid\": \"${cluster_uuid}\", \"seqno\": ${seq_no}, \"instance_id\": \"${instance_id}\" }"
-    else
-      echo "${bold}${red}Sequence number found does not appear to be a valid number: ${seq_no}${normal}"
-    fi
+  if [[ "$seq_no" =~ [0-9]+$ ]]; then
+    instance_id=$(</var/vcap/instance/id)
+    echo "{  \"cluster_uuid\": \"${cluster_uuid}\", \"seqno\": ${seq_no}, \"instance_id\": \"${instance_id}\" }"
+  else
+    echo "${bold}${red}Sequence number found does not appear to be a valid number: ${seq_no}${normal}"
+    echo "${bold}${red}Sequence number found does not appear to be a valid number: ${seq_no}${normal}"
+  fi
 }
 
 report_sequence_number
