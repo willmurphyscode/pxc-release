@@ -20,8 +20,13 @@ pushd "Percona-XtraDB-Cluster-${PERCONA_SERVER_VERSION}/"
         -DBUILD_CONFIG=mysql_release \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_INSTALL_PREFIX="${BOSH_INSTALL_TARGET}" \
+        -DENABLED_LOCAL_INFILE=false \
         -DINSTALL_MYSQLTESTDIR= \
+        -DINSTALL_SECURE_FILE_PRIVDIR=NULL \
+        -DMYSQL_DATADIR=/var/vcap/store/pxc-mysql \
         -DMYSQL_SERVER_SUFFIX="-${wsrep_version}" \
+        -DMYSQL_UNIX_ADDR=/var/vcap/sys/run/pxc-mysql/mysqld.sock \
+        -DSYSCONFDIR=/var/vcap/jobs/pxc-mysql/config \
         -DWITH_BOOST=../boost_1_59_0/ \
         -DWITH_EMBEDDED_SERVER=OFF \
         -DWITH_INNODB_DISALLOW_WRITES=ON \
