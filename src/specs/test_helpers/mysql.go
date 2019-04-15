@@ -23,15 +23,17 @@ func DbSetup(db *sql.DB, tableName string) string {
 	return dbName
 }
 
-func DbConnWithUser(mysqlUsername, mysqlPassword, mysqlHost string) *sql.DB {
-	pxcConnectionString := fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/?tls=skip-verify",
-		mysqlUsername,
-		mysqlPassword,
-		mysqlHost,
+func DbDSN(username, password, host string) string {
+	return fmt.Sprintf(
+		"%s:%s@tcp(%s:%d)/",
+		username,
+		password,
+		host,
 		3306)
+}
 
-	databaseConnection, err := sql.Open("mysql", pxcConnectionString)
+func DbConnWithUser(mysqlUsername, mysqlPassword, mysqlHost string) *sql.DB {
+	databaseConnection, err := sql.Open("mysql", DbDSN(mysqlUsername, mysqlPassword, mysqlHost))
 	Expect(err).NotTo(HaveOccurred())
 
 	return databaseConnection
