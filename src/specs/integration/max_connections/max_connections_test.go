@@ -41,11 +41,20 @@ var _ = Describe("MaxConnections", func() {
 		var connections []*sql.Conn
 
 		log.Printf("Found %d current connections", currentConnectionCount)
-		log.Printf("Expecting to establishing %d total connections to proxy", maxConnections - currentConnectionCount)
+		log.Printf("Expecting to establishing %d total connections to proxy", maxConnections-currentConnectionCount)
 
-		for i := 0; i < maxConnections - currentConnectionCount; i ++ {
+		for i := 0; i < maxConnections-currentConnectionCount; i ++ {
 			conn, err := db.Conn(ctx)
 			Expect(err).NotTo(HaveOccurred())
+
+			var (
+				connectionId, ts string
+			)
+
+			err = conn.QueryRowContext(ctx, `SELECT CONNECTION_ID(), NOW()`).Scan(&connectionId, &ts)
+			Expect(err).NotTo(HaveOccurred())
+
+			log.Printf("%s : %s", connectionId, ts)
 
 			connections = append(connections, conn)
 		}
